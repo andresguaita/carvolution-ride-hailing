@@ -7,6 +7,7 @@ import { Driver } from '../users/entities/driver.entity';
 import { Rider } from '../users/entities/rider.entity';
 import { PaymentMethod } from '../payment/entities/payment-method.entity';
 import { initialData } from './data/seed-data';
+import { Trip } from 'src/trip/entities/trip.entity';
 
 
 @Module({
@@ -30,12 +31,12 @@ import { initialData } from './data/seed-data';
           database: configService.get('DB_NAME'),
           username: configService.get('DB_USER'),
           password: configService.get('DB_PASSWORD'),
-          entities: [User,Driver,Rider,PaymentMethod],
+          entities: [User,Driver,Rider,PaymentMethod,Trip],
           synchronize: false,
         };
       },
     }),
-    TypeOrmModule.forFeature([User,Driver,Rider,PaymentMethod])    
+    TypeOrmModule.forFeature([User,Driver,Rider,PaymentMethod,Trip])    
   ]
 })
 export class SeedModule { }

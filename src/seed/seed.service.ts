@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { PaymentMethod } from '../payment/entities/payment-method.entity';
 import { Rider } from '../users/entities/rider.entity';
 import { SeedData } from './data/seed-data';
+import { Driver } from '../users/entities/driver.entity';
 
 @Injectable()
 export class SeedService {
@@ -14,6 +15,8 @@ export class SeedService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Rider)
     private readonly riderRepository: Repository<Rider>,
+    @InjectRepository(Driver)
+    private readonly driverRepository: Repository<Driver>,
     @InjectRepository(PaymentMethod)
     private readonly paymentMethodRepository: Repository<PaymentMethod>,
     @Inject('INITIAL_DATA')
@@ -34,14 +37,13 @@ export class SeedService {
    
   private async insertInitialData(initialData:SeedData): Promise<void> {
     // Inserta los usuarios iniciales en la base de datos y obtiene el resultado.
-    const savedUsers = await this.userRepository.save(initialData.users);
+    const savedUsersRider = await this.userRepository.save(initialData.riders);
 
     // Recorre los usuarios insertados y crea un nuevo registro en la tabla de Riders y en la tabla de PaymentMethod.
-    for (const [i, user] of savedUsers.entries()) {
-
+    for (const [i, user] of savedUsersRider.entries()) {
+ 
       // Crea un nuevo registro en la tabla de Riders asociado al usuario actual.
       const savedRider = await this.riderRepository.save({ userId: user.id });
-
       // Crea un nuevo registro en la tabla de PaymentMethod asociado al rider actual.
       await this.paymentMethodRepository.save({
         id: initialData.paymentMethods[i].id,
@@ -49,6 +51,16 @@ export class SeedService {
         type: initialData.paymentMethods[i].type,
         rider: savedRider
       });
+    }
+
+    const savedUsersDriver = await this.userRepository.save(initialData.drivers);
+
+    // Recorre los usuarios insertados y crea un nuevo registro en la tabla de Riders y en la tabla de PaymentMethod.
+    for (const [i, user] of savedUsersDriver.entries()) {
+
+      // Crea un nuevo registro en la tabla de Drivers asociado al usuario actual.
+      const savedDriver = await this.driverRepository.save({ userId: user.id });
+      
     }
   }
 }

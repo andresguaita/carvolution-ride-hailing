@@ -7,12 +7,12 @@ export class Driver {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  licenseNumber: string;
-
   @OneToOne(() => User, user => user.driver)
   @JoinColumn()
   user: User;
+
+  @Column()
+  userId:string;
 
   @OneToMany(() => Trip, (trip) => trip.driver)
   trip: Trip;

@@ -8,11 +8,17 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({unique:true})
   email: string;
 
   @Column()
   password: string;
+
+  @Column()
+  names:string;
+
+  @Column()
+  lastNames:string;
 
   @OneToOne(() => Driver, driver => driver.user)
   driver: Driver;

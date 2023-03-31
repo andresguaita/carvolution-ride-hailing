@@ -34,7 +34,7 @@ export class Trip {
   @Column()
   pickupTime: Date;
 
-  @Column()
+  @Column({nullable:true})
   dropoffTime: Date;
 
   @Column({default : 0,type: 'float'})

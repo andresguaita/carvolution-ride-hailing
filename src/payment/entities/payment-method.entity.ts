@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, ManyToOne, OneToMany } from 'typeorm';
 
 import { Rider } from '../../users/entities/rider.entity';
+import { Payment } from './payment.entity';
 
 @Entity()
 export class PaymentMethod{
@@ -17,4 +18,7 @@ export class PaymentMethod{
 
     @Column()
     type:string;
+
+    @OneToMany(() => Payment, (payment) => payment.paymentMethod)
+    payment: Payment;
 }
