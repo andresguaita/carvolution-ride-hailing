@@ -6,9 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { PaymentModule } from './payment/payment.module';
 import { TripModule } from './trip/trip.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [ConfigModule.forRoot(),
+  EventEmitterModule.forRoot(),
   TypeOrmModule.forRoot({
     type: 'postgres',
     host: process.env.DB_HOST,

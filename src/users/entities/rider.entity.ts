@@ -9,10 +9,6 @@ export class Rider {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToMany(() => PaymentMethod, (paymentMethod) =>
-  paymentMethod.rider, { cascade: true })
-  paymentMethod: PaymentMethod[];
-
   @OneToOne(() => User, user => user.rider)
   @JoinColumn()
   user: User;

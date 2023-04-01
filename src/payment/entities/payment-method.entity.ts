@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, ManyToOne, OneTo
 
 import { Rider } from '../../users/entities/rider.entity';
 import { Payment } from './payment.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class PaymentMethod{
@@ -11,10 +12,10 @@ export class PaymentMethod{
     @Column()
     methodToken:string;
 
-    @ManyToOne(() => Rider, (rider) => rider.paymentMethod)
-    rider: Rider;
+    @ManyToOne(() => User, (user) => user.paymentMethod)
+    user: User;
 
-    riderId: string;
+    userId: string;
 
     @Column()
     type:string;

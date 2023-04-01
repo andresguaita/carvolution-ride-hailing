@@ -43,13 +43,13 @@ export class SeedService {
     for (const [i, user] of savedUsersRider.entries()) {
  
       // Crea un nuevo registro en la tabla de Riders asociado al usuario actual.
-      const savedRider = await this.riderRepository.save({ userId: user.id });
-      // Crea un nuevo registro en la tabla de PaymentMethod asociado al rider actual.
+       await this.riderRepository.save({ userId: user.id });
+      // Crea un nuevo registro en la tabla de PaymentMethod asociado al usuario actual.
       await this.paymentMethodRepository.save({
         id: initialData.paymentMethods[i].id,
         methodToken: initialData.paymentMethods[i].methodToken,
         type: initialData.paymentMethods[i].type,
-        rider: savedRider
+        user: user
       });
     }
 

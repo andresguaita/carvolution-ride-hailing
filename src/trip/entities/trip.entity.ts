@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToOne, OneToMany } from 'typeorm';
 import { Rider } from '../../users/entities/rider.entity';
 import { Driver } from '../../users/entities/driver.entity';
+import { Payment } from '../../payment/entities/payment.entity';
 
 @Entity()
 export class Trip {
@@ -48,6 +49,9 @@ export class Trip {
 
   @Column({default: 'IN PROGRESS'})
   status:  'COMPLETED' | 'IN PROGRESS' | 'CANCELED';
+
+  @OneToMany(type => Payment, payment => payment.trip)
+  payments: Payment[];
 
   @CreateDateColumn({
     type: 'timestamptz',

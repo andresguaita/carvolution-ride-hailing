@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Driver } from './driver.entity';
 import { Rider } from './rider.entity';
+import { PaymentMethod } from '../../payment/entities/payment-method.entity';
 
 
 @Entity()
@@ -25,6 +26,10 @@ export class User {
 
   @OneToOne(() => Rider, rider => rider.user)
   rider: Rider;
+
+  @OneToMany(() => PaymentMethod, (paymentMethod) =>
+  paymentMethod.user)
+  paymentMethod: PaymentMethod[];
 
   @CreateDateColumn({
     type: 'timestamptz',

@@ -7,6 +7,8 @@ import { TransactionPaymentResponse } from './interface/transaction-payment-resp
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Payment } from './entities/payment.entity';
+import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { PaymentGatewayLogging } from './entities/payment-gateway-logging.entity';
 
 @Injectable()
 export class PaymentService {
@@ -18,6 +20,8 @@ export class PaymentService {
     constructor(
         @InjectRepository(Payment)
         private readonly paymentRepository: Repository<Payment>,
+        @InjectRepository(PaymentGatewayLogging)
+        private readonly paymentGatewayLoggingRepository: Repository<PaymentGatewayLogging>,
         private readonly http: AxiosAdapter) {
         this.publicKey = process.env.PUB_KEY_PAYMENT_GATEWAY;
         this.privateKey = process.env.PRIV_KEY_PAYMENT_GATEWAY;
@@ -42,10 +46,18 @@ export class PaymentService {
     }
 
     async transactionPayment(transactionPaymentDto: TransactionPaymentDto) {
-        const { amount, currency, customerEmail, paymentSourceId, reference, paymentMethodType, installments } = transactionPaymentDto;
+        const { amount,
+            currency,
+            customerEmail,
+            paymentSourceId,
+            reference,
+            paymentMethodType,
+            installments,
+            transactionId
+        } = transactionPaymentDto;
 
         let bodyTransactionPayment: BodyTransactionPayment = {
-            amount_in_cents: amount * 100,
+            amount_in_cents: amount,
             currency,
             customer_email: customerEmail,
             reference,
@@ -65,22 +77,47 @@ export class PaymentService {
                         'Content-Type': 'application/json'
                     }
                 });
-            
-            await this.paymentRepository.save({
-                paymentMethod: <any>{id: paymentSourceId},
+
+            await this.paymentGatewayLoggingRepository.save({
+                apiResponse: createTransaction,
+                apiRequest: bodyTransactionPayment
+            })
+
+            return {
                 amount,
                 status: createTransaction.data.status
             }
-            );
 
-        return {
-            amount,
-            status: createTransaction.data.status
-        }
-    
         } catch (error) {
             console.log(error)
+            await this.paymentGatewayLoggingRepository.save({
+                apiResponse: error,
+                apiRequest: bodyTransactionPayment
+            })
+
             throw Error('Ha ocurrido un error inesperado, por favor intente mas tarde.')
+        }
+
+    }
+
+    async createTransaction(createTransactionDto: CreateTransactionDto) {
+
+        const {transactionId, tripId,paymentSourceId, amount, status } = createTransactionDto;
+
+        try {
+            const transaction = await this.paymentRepository.save({
+                id: transactionId,
+                paymentMethod: <any>{ id: paymentSourceId },
+                amount,
+                status,
+                trip: <any>{id: tripId}
+            }
+            );
+
+            return transaction;
+        } catch (error) {
+            console.log(error);
+            throw new Error('Hubo un error inesperado, espere un momento e intente nuevamente.')
         }
 
     }

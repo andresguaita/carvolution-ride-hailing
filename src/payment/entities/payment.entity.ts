@@ -1,12 +1,13 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, ManyToOne, Column, CreateDateColumn, UpdateDateColumn, PrimaryColumn, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
 import { PaymentMethod } from "./payment-method.entity";
+import { Trip } from '../../trip/entities/trip.entity';
 
 
 @Entity()
 export class Payment {
 
-    @PrimaryGeneratedColumn('increment')
-    id: number;
+    @PrimaryColumn()
+    id: string;
 
     @ManyToOne(() => PaymentMethod, (paymentMethod) => paymentMethod.payment)
     paymentMethod: PaymentMethod;
@@ -19,6 +20,12 @@ export class Payment {
 
     @Column()
     paymentMethodId: number;
+
+    @ManyToOne(type => Trip, trip => trip.payments)
+    trip: Trip;
+
+    @Column()
+    tripId:number;
 
     @CreateDateColumn({
         type: 'timestamptz',

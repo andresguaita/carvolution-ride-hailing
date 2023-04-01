@@ -1,7 +1,10 @@
-import { IsString,IsNumber,Length,IsEmail,IsOptional} from "class-validator";
+import { IsString,IsNumber,Length,IsEmail,IsOptional, IsUUID} from "class-validator";
 
 
 export class TransactionPaymentDto{
+
+    @IsUUID()
+    transactionId:string;
 
     @IsNumber()
     amount:number;
