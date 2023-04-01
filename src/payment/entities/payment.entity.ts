@@ -5,8 +5,8 @@ import { PaymentMethod } from "./payment-method.entity";
 @Entity()
 export class Payment {
 
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn('increment')
+    id: number;
 
     @ManyToOne(() => PaymentMethod, (paymentMethod) => paymentMethod.payment)
     paymentMethod: PaymentMethod;
@@ -15,7 +15,7 @@ export class Payment {
     amount:number;
 
     @Column()
-    status: 'PAGADO' | 'PAGO PENDIENTE' | 'PAGO DENEGADO'
+    status:string;
 
     @Column()
     paymentMethodId: number;

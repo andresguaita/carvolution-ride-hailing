@@ -19,17 +19,17 @@ export class Trip {
   @Column()
   driverId: string;
 
-  @Column()
-  pickupLat: string;
+  @Column({type: 'float'})
+  pickupLat: number;
 
-  @Column()
-  pickupLng: string;
+  @Column({type: 'float'})
+  pickupLng: number;
 
-  @Column()
-  dropoffLat: string;
+  @Column({type: 'float'})
+  dropoffLat: number;
 
-  @Column()
-  dropoffLng: string;
+  @Column({type: 'float'})
+  dropoffLng: number;
 
   @Column()
   pickupTime: Date;
@@ -40,14 +40,14 @@ export class Trip {
   @Column({default : 0,type: 'float'})
   fare: number;
 
-  @Column({default: 0})
+  @Column({default: 0,type: 'float'})
   distance: number;
 
-  @Column({default: 0})
+  @Column({default: 0,type: 'float'})
   duration: number;
 
-  @Column({default: 'EN PROCESO'})
-  status:  'FINALIZADO' | 'EN PROCESO' | 'CANCELADO';
+  @Column({default: 'IN PROGRESS'})
+  status:  'COMPLETED' | 'IN PROGRESS' | 'CANCELED';
 
   @CreateDateColumn({
     type: 'timestamptz',

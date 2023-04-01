@@ -1,18 +1,18 @@
-import { IsString, IsUUID } from "class-validator";
+import { IsString, IsUUID, IsNumber } from 'class-validator';
 
 export class CreateTripDto {
 
-    @IsString()
-    pickupLat: string;
+    @IsNumber()
+    pickupLat: number;
   
-    @IsString()
-    pickupLng: string;
+    @IsNumber()
+    pickupLng:number;
   
-    @IsString()
-    dropoffLat: string;
+    @IsNumber()
+    dropoffLat: number;
   
-    @IsString()
-    dropoffLng: string;
+    @IsNumber()
+    dropoffLng: number;
 
     @IsUUID()
     riderId:string;
