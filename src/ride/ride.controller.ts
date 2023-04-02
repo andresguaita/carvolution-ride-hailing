@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, ParseIntPipe } from '@nestjs/common';
 import { RideService } from './ride.service';
 import { CreateRideDto } from './dto/create-ride.dto';
 
@@ -13,8 +13,8 @@ export class RideController {
   }
 
   @Put('finish')
-  finish(@Body('rideId') RideId:number){
-    return this.rideService.finishRide(RideId);
+  finish(@Body('rideId', ParseIntPipe) rideId:number){
+    return this.rideService.finishRide(rideId);
   }
 
 

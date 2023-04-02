@@ -1,74 +1,77 @@
-import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../app.module';
-import { CreateRideDto } from './dto/create-ride.dto';
-import { MakePaymentEvent } from './events/make-payment.event';
+import { RideController } from './ride.controller';
+import { RideService } from './ride.service';
 
-
-describe('Ride Controller', () => {
+describe('RideController', () => {
   let app: INestApplication;
+  let rideService = { create: jest.fn(), finishRide: jest.fn() };
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    const moduleRef: TestingModule = await Test.createTestingModule({
+      controllers: [RideController],
+      providers: [RideService],
+    })
+      .overrideProvider(RideService)
+      .useValue(rideService)
+      .compile();
 
-    app = moduleFixture.createNestApplication();
+    app = moduleRef.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
     await app.init();
+  });
+
+  it('/POST ride', () => {
+    const createRideDto = {
+      pickupLat: 123.456,
+      pickupLng: 789.123,
+      dropoffLat: 456.789,
+      dropoffLng: 321.987,
+      email: 'test@example.com',
+    };
+    return request(app.getHttpServer())
+      .post('/ride')
+      .send(createRideDto)
+      .expect(201)
+      .then(() => {
+        expect(rideService.create).toHaveBeenCalledWith(createRideDto);
+      });
+  });
+
+  it('/POST ride (invalid email)', () => {
+    const createRideDto = {
+      pickupLat: 1,
+      pickupLng: 2,
+      dropoffLat: 3,
+      dropoffLng: 4,
+      email: 'invalid-email',
+    };
+    return request(app.getHttpServer())
+      .post('/ride')
+      .send(createRideDto)
+      .expect(400);
+  });
+
+  it('/PUT ride/finish', () => {
+    const rideId = 1;
+    return request(app.getHttpServer())
+      .put('/ride/finish')
+      .send({ rideId })
+      .expect(200)
+      .then(() => {
+        expect(rideService.finishRide).toHaveBeenCalledWith(rideId);
+      });
+  });
+
+  it('/PUT ride/finish (missing rideId)', () => {
+    return request(app.getHttpServer())
+      .put('/ride/finish')
+      .send({})
+      .expect(400);
   });
 
   afterAll(async () => {
     await app.close();
-  });
-
-  describe('/rides (POST)', () => {
-    it('should create a ride', () => {
-      const createRideDto: CreateRideDto = {
-        pickupLat: 123.456,
-        pickupLng: 789.123,
-        dropoffLat: 456.789,
-        dropoffLng: 321.987,
-        email: 'test@example.com',
-      };
-
-      return request(app.getHttpServer())
-        .post('/rides')
-        .send(createRideDto)
-        .expect(201);
-    });
-  });
-
-  describe('/rides/:id/payments (POST)', () => {
-    it('should make a payment for a ride', () => {
-      const makePaymentEvent: MakePaymentEvent = {
-        userId: '123',
-        fare: 50,
-        rideId: 1,
-      };
-
-      return request(app.getHttpServer())
-        .post('/rides/1/payments')
-        .send(makePaymentEvent)
-        .expect(201);
-    });
-  });
-
-  describe('/rides (GET)', () => {
-    it('should get a list of rides', () => {
-      return request(app.getHttpServer()).get('/rides').expect(200);
-    });
-  });
-
-  describe('/rides/:id (GET)', () => {
-    it('should get a ride by id', () => {
-      return request(app.getHttpServer()).get('/rides/1').expect(200);
-    });
-  });
-
-  describe('/health-check (GET)', () => {
-    it('should return a health check', () => {
-      return request(app.getHttpServer()).get('/health-check').expect(200);
-    });
   });
 });

@@ -17,7 +17,7 @@ export class RideService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Ride)
     private readonly rideRepository: Repository<Ride>,
-    private eventEmitter: EventEmitter2,
+    public eventEmitter: EventEmitter2,
     private paymentService: PaymentService,
   ) { }
 
