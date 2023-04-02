@@ -4,17 +4,17 @@ import { Driver } from '../../users/entities/driver.entity';
 import { Payment } from '../../payment/entities/payment.entity';
 
 @Entity()
-export class Trip {
+export class Ride {
   @PrimaryGeneratedColumn()
   id: number;
     
-  @ManyToOne(() => Rider, (rider) => rider.trip)
+  @ManyToOne(() => Rider, (rider) => rider.ride)
   rider: Rider;
   
   @Column()
   riderId: string;
 
-  @ManyToOne(() => Driver, (driver) => driver.trip)
+  @ManyToOne(() => Driver, (driver) => driver.ride)
   driver: Driver;
 
   @Column()
@@ -50,7 +50,7 @@ export class Trip {
   @Column({default: 'IN PROGRESS'})
   status:  'COMPLETED' | 'IN PROGRESS' | 'CANCELED';
 
-  @OneToMany(type => Payment, payment => payment.trip)
+  @OneToMany(type => Payment, payment => payment.ride)
   payments: Payment[];
 
   @CreateDateColumn({

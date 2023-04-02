@@ -102,7 +102,7 @@ export class PaymentService {
 
     async createTransaction(createTransactionDto: CreateTransactionDto) {
 
-        const {transactionId, tripId,paymentSourceId, amount, status } = createTransactionDto;
+        const {transactionId, rideId,paymentSourceId, amount, status } = createTransactionDto;
 
         try {
             const transaction = await this.paymentRepository.save({
@@ -110,7 +110,7 @@ export class PaymentService {
                 paymentMethod: <any>{ id: paymentSourceId },
                 amount,
                 status,
-                trip: <any>{id: tripId}
+                ride: <any>{id: rideId}
             }
             );
 

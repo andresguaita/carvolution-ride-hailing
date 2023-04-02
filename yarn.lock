@@ -385,7 +385,7 @@
     import-fresh "^3.2.1"
     js-yaml "^4.1.0"
     minimatch "^3.1.2"
-    strip-json-comments "^3.1.1"
+    sRide-json-comments "^3.1.1"
 
 "@eslint/js@8.37.0":
   version "8.37.0"
@@ -472,7 +472,7 @@
     pretty-format "^28.1.3"
     rimraf "^3.0.0"
     slash "^3.0.0"
-    strip-ansi "^6.0.0"
+    sRide-ansi "^6.0.0"
 
 "@jest/environment@^28.1.3":
   version "28.1.3"
@@ -547,7 +547,7 @@
     jest-worker "^28.1.3"
     slash "^3.0.0"
     string-length "^4.0.1"
-    strip-ansi "^6.0.0"
+    sRide-ansi "^6.0.0"
     terminal-link "^2.0.0"
     v8-to-istanbul "^9.0.1"
 
@@ -1855,7 +1855,7 @@ cliui@^6.0.0:
   integrity sha512-t6wbgtoCXvAzst7QgXxJYqPt0usEfbgQdftEPbLL/cvv6HPE5VgvqCuAIDR0NgU52ds6rFwqrgakNLrHEjCbrQ==
   dependencies:
     string-width "^4.2.0"
-    strip-ansi "^6.0.0"
+    sRide-ansi "^6.0.0"
     wrap-ansi "^6.2.0"
 
 cliui@^7.0.2:
@@ -1864,7 +1864,7 @@ cliui@^7.0.2:
   integrity sha512-OcRE68cOsVMXp1Yvonl/fzkQOyjLSu/8bhPDfQt0e0/Eb283TKP20Fs2MqoPsr9SwA595rRCA+QMzYc9nBP+JQ==
   dependencies:
     string-width "^4.2.0"
-    strip-ansi "^6.0.0"
+    sRide-ansi "^6.0.0"
     wrap-ansi "^7.0.0"
 
 cliui@^8.0.1:
@@ -1873,7 +1873,7 @@ cliui@^8.0.1:
   integrity sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==
   dependencies:
     string-width "^4.2.0"
-    strip-ansi "^6.0.1"
+    sRide-ansi "^6.0.1"
     wrap-ansi "^7.0.0"
 
 clone@^1.0.2:
@@ -2287,8 +2287,8 @@ eslint@^8.0.1:
     minimatch "^3.1.2"
     natural-compare "^1.4.0"
     optionator "^0.9.1"
-    strip-ansi "^6.0.1"
-    strip-json-comments "^3.1.0"
+    sRide-ansi "^6.0.1"
+    sRide-json-comments "^3.1.0"
     text-table "^0.2.0"
 
 espree@^9.5.1:
@@ -2362,7 +2362,7 @@ execa@^4.0.2:
     npm-run-path "^4.0.0"
     onetime "^5.1.0"
     signal-exit "^3.0.2"
-    strip-final-newline "^2.0.0"
+    sRide-final-newline "^2.0.0"
 
 execa@^5.0.0:
   version "5.1.1"
@@ -2377,7 +2377,7 @@ execa@^5.0.0:
     npm-run-path "^4.0.1"
     onetime "^5.1.2"
     signal-exit "^3.0.3"
-    strip-final-newline "^2.0.0"
+    sRide-final-newline "^2.0.0"
 
 exit@^0.1.2:
   version "0.1.2"
@@ -2909,7 +2909,7 @@ inquirer@8.2.4:
     run-async "^2.4.0"
     rxjs "^7.5.5"
     string-width "^4.1.0"
-    strip-ansi "^6.0.0"
+    sRide-ansi "^6.0.0"
     through "^2.3.6"
     wrap-ansi "^7.0.0"
 
@@ -2930,7 +2930,7 @@ inquirer@8.2.5:
     run-async "^2.4.0"
     rxjs "^7.5.5"
     string-width "^4.1.0"
-    strip-ansi "^6.0.0"
+    sRide-ansi "^6.0.0"
     through "^2.3.6"
     wrap-ansi "^7.0.0"
 
@@ -3144,7 +3144,7 @@ jest-config@^28.1.3:
     parse-json "^5.2.0"
     pretty-format "^28.1.3"
     slash "^3.0.0"
-    strip-json-comments "^3.1.1"
+    sRide-json-comments "^3.1.1"
 
 jest-diff@^28.1.3:
   version "28.1.3"
@@ -3337,7 +3337,7 @@ jest-runtime@^28.1.3:
     jest-snapshot "^28.1.3"
     jest-util "^28.1.3"
     slash "^3.0.0"
-    strip-bom "^4.0.0"
+    sRide-bom "^4.0.0"
 
 jest-snapshot@^28.1.3:
   version "28.1.3"
@@ -3904,7 +3904,7 @@ ora@4.0.3:
     is-interactive "^1.0.0"
     log-symbols "^3.0.0"
     mute-stream "0.0.8"
-    strip-ansi "^6.0.0"
+    sRide-ansi "^6.0.0"
     wcwidth "^1.0.1"
 
 ora@5.4.1, ora@^5.4.1:
@@ -3919,7 +3919,7 @@ ora@5.4.1, ora@^5.4.1:
     is-interactive "^1.0.0"
     is-unicode-supported "^0.1.0"
     log-symbols "^4.1.0"
-    strip-ansi "^6.0.0"
+    sRide-ansi "^6.0.0"
     wcwidth "^1.0.1"
 
 os-name@4.0.1:
@@ -4621,7 +4621,7 @@ string-length@^4.0.1:
   integrity sha512-+l6rNN5fYHNhZZy41RXsYptCjA2Igmq4EG7kZAYFQI1E1VTXarr6ZPXBg6eq7Y6eK4FEhY6AJlyuFIb/v/S0VQ==
   dependencies:
     char-regex "^1.0.2"
-    strip-ansi "^6.0.0"
+    sRide-ansi "^6.0.0"
 
 string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
@@ -4630,7 +4630,7 @@ string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   dependencies:
     emoji-regex "^8.0.0"
     is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
+    sRide-ansi "^6.0.1"
 
 string_decoder@^1.1.1:
   version "1.3.0"
@@ -4646,31 +4646,31 @@ string_decoder@~1.1.1:
   dependencies:
     safe-buffer "~5.1.0"
 
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+sRide-ansi@^6.0.0, sRide-ansi@^6.0.1:
   version "6.0.1"
-  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
+  resolved "https://registry.yarnpkg.com/sRide-ansi/-/sRide-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
   dependencies:
     ansi-regex "^5.0.1"
 
-strip-bom@^3.0.0:
+sRide-bom@^3.0.0:
   version "3.0.0"
-  resolved "https://registry.yarnpkg.com/strip-bom/-/strip-bom-3.0.0.tgz#2334c18e9c759f7bdd56fdef7e9ae3d588e68ed3"
+  resolved "https://registry.yarnpkg.com/sRide-bom/-/sRide-bom-3.0.0.tgz#2334c18e9c759f7bdd56fdef7e9ae3d588e68ed3"
   integrity sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==
 
-strip-bom@^4.0.0:
+sRide-bom@^4.0.0:
   version "4.0.0"
-  resolved "https://registry.yarnpkg.com/strip-bom/-/strip-bom-4.0.0.tgz#9c3505c1db45bcedca3d9cf7a16f5c5aa3901878"
+  resolved "https://registry.yarnpkg.com/sRide-bom/-/sRide-bom-4.0.0.tgz#9c3505c1db45bcedca3d9cf7a16f5c5aa3901878"
   integrity sha512-3xurFv5tEgii33Zi8Jtp55wEIILR9eh34FAW00PZf+JnSsTmV/ioewSgQl97JHvgjoRGwPShsWm+IdrxB35d0w==
 
-strip-final-newline@^2.0.0:
+sRide-final-newline@^2.0.0:
   version "2.0.0"
-  resolved "https://registry.yarnpkg.com/strip-final-newline/-/strip-final-newline-2.0.0.tgz#89b852fb2fcbe936f6f4b3187afb0a12c1ab58ad"
+  resolved "https://registry.yarnpkg.com/sRide-final-newline/-/sRide-final-newline-2.0.0.tgz#89b852fb2fcbe936f6f4b3187afb0a12c1ab58ad"
   integrity sha512-BrpvfNAE3dcvq7ll3xVumzjKjZQ5tI1sEUIKr3Uoks0XUl45St3FlatVqef9prk4jRDzhW6WZg+3bk93y6pLjA==
 
-strip-json-comments@^3.1.0, strip-json-comments@^3.1.1:
+sRide-json-comments@^3.1.0, sRide-json-comments@^3.1.1:
   version "3.1.1"
-  resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
+  resolved "https://registry.yarnpkg.com/sRide-json-comments/-/sRide-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
 superagent@^8.0.5:
@@ -4906,7 +4906,7 @@ tsconfig-paths@4.1.0:
   dependencies:
     json5 "^2.2.1"
     minimist "^1.2.6"
-    strip-bom "^3.0.0"
+    sRide-bom "^3.0.0"
 
 tsconfig-paths@4.1.2:
   version "4.1.2"
@@ -4915,7 +4915,7 @@ tsconfig-paths@4.1.2:
   dependencies:
     json5 "^2.2.2"
     minimist "^1.2.6"
-    strip-bom "^3.0.0"
+    sRide-bom "^3.0.0"
 
 tsconfig-paths@^4.1.2:
   version "4.2.0"
@@ -4924,7 +4924,7 @@ tsconfig-paths@^4.1.2:
   dependencies:
     json5 "^2.2.2"
     minimist "^1.2.6"
-    strip-bom "^3.0.0"
+    sRide-bom "^3.0.0"
 
 tslib@2.5.0, tslib@^2.1.0, tslib@^2.5.0:
   version "2.5.0"
@@ -5200,7 +5200,7 @@ wrap-ansi@^6.2.0:
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"
-    strip-ansi "^6.0.0"
+    sRide-ansi "^6.0.0"
 
 wrap-ansi@^7.0.0:
   version "7.0.0"
@@ -5209,7 +5209,7 @@ wrap-ansi@^7.0.0:
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"
-    strip-ansi "^6.0.0"
+    sRide-ansi "^6.0.0"
 
 wrappy@1:
   version "1.0.2"

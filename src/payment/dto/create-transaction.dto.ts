@@ -5,7 +5,7 @@ export class CreateTransactionDto{
 
         transactionId:string
 
-        tripId:number;
+        rideId:number;
 
         paymentSourceId: number;
 

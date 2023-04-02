@@ -5,8 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { PaymentModule } from './payment/payment.module';
-import { TripModule } from './trip/trip.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { RideModule } from './ride/ride.module';
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -23,7 +23,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
   }),
     UsersModule,
     PaymentModule,
-    TripModule],
+    RideModule],
   controllers: [AppController],
   providers: [AppService],
 })

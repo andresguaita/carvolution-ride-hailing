@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { TripService } from './trip.service';
-import { TripController } from './trip.controller';
+import { RideService } from './Ride.service';
+import { RideController } from './Ride.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Trip } from './entities/trip.entity';
 import { User } from '../users/entities/user.entity';
 import { Driver } from '../users/entities/driver.entity';
 import { Rider } from '../users/entities/rider.entity';
 import { PaymentModule } from '../payment/payment.module';
+import { Ride } from './entities/ride.entity';
 
 @Module({
-  controllers: [TripController],
-  providers: [TripService],
-  imports: [TypeOrmModule.forFeature([Trip,User,Driver,Rider]),PaymentModule],
+  controllers: [RideController],
+  providers: [RideService],
+  imports: [TypeOrmModule.forFeature([Ride,User,Driver,Rider]),PaymentModule],
   exports: [TypeOrmModule]
 })
-export class TripModule {}
+export class RideModule {}

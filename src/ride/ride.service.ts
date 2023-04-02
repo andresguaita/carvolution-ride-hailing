@@ -1,33 +1,29 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { CreateTripDto } from './dto/create-trip.dto';
-import { UpdateTripDto } from './dto/update-trip.dto';
+import { CreateRideDto } from './dto/create-Ride.dto';
 import { User } from '../users/entities/user.entity';
 import { Repository } from 'typeorm';
-import { Rider } from '../users/entities/rider.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Driver } from '../users/entities/driver.entity';
-import { Trip } from './entities/trip.entity';
 import { MakePaymentEvent } from './events/make-payment.event';
 import { PaymentService } from '../payment/payment.service';
-import { Payment } from '../payment/entities/payment.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { Ride } from './entities/ride.entity';
 
 @Injectable()
-export class TripService {
+export class RideService {
 
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(Trip)
-    private readonly tripRepository: Repository<Trip>,
+    @InjectRepository(Ride)
+    private readonly rideRepository: Repository<Ride>,
     private eventEmitter: EventEmitter2,
     private paymentService: PaymentService,
   ) { }
 
-  async create(createTripDto: CreateTripDto) {
+  async create(createRideDto: CreateRideDto) {
 
-    const { pickupLat, pickupLng, dropoffLat, dropoffLng, riderId } = createTripDto;
+    const { pickupLat, pickupLng, dropoffLat, dropoffLng, riderId } = createRideDto;
 
     const user = await this.userRepository.findOne({
       where: {
@@ -45,7 +41,7 @@ export class TripService {
 
     if (!findDriver) throw new BadRequestException('No hay conductores disponibles, intente mas tarde.');
 
-    const trip = await this.tripRepository.save({
+    const ride = await this.rideRepository.save({
       rider: user.rider,
       driver: findDriver.driver,
       pickupLat,
@@ -56,49 +52,50 @@ export class TripService {
     });
 
     return {
-      id: trip.id,
+      id: ride.id,
       message: 'Hemos generado tu viaje.',
       driverFullName: `${findDriver.names} ${findDriver.lastNames}`,
-      pickupTime: trip.pickupTime
+      pickupTime: ride.pickupTime
     }
   }
 
-  async finishTrip(tripId: number) {
+  async finishRide(rideId: number) {
 
-    const trip = await this.tripRepository.findOne({
+    const ride = await this.rideRepository.findOne({
       where: {
-        id: tripId
+        id: rideId
       },
       relations: ['rider']
     });
 
-    if (!trip) throw new BadRequestException('No existe el viaje indicado.');
-    if (trip.status === 'CANCELED' || trip.status === 'COMPLETED') throw new BadRequestException('Este viaje ya ha sido finalizado.');
+    if (!ride) throw new BadRequestException('No existe el viaje indicado.');
+
+    if (ride.status === 'CANCELED' || ride.status === 'COMPLETED') throw new BadRequestException('Este viaje ya ha sido finalizado.');
 
     const now = new Date();
 
-    const distance = this.calculateDistance(trip.pickupLat, trip.pickupLng, trip.dropoffLat, trip.dropoffLng);
+    const distance = this.calculateDistance(ride.pickupLat, ride.pickupLng, ride.dropoffLat, ride.dropoffLng);
 
-    const duration = Math.floor((now.getTime() - trip.pickupTime.getTime()) / 60000);
+    const duration = Math.floor((now.getTime() - ride.pickupTime.getTime()) / 60000);
 
     const fare = this.calculateFare(duration, distance);
 
-    await this.tripRepository.save({
-      id: tripId,
+    await this.rideRepository.save({
+      id: ride.id,
       status: 'COMPLETED',
       dropoffTime: now,
       duration: duration,
       distance: distance,
-      fare:fare
+      fare: fare
     });
 
-    this.eventEmitter.emit('make.payment', new MakePaymentEvent(trip.rider.userId, fare, tripId));
+    this.eventEmitter.emit('make.payment', new MakePaymentEvent(ride.rider.userId, fare, ride.id));
 
     return {
       message: 'Has finalizado el viaje.',
       fare,
-      pickupTime: trip.pickupTime,
-      dropoffTime: trip.dropoffTime,
+      pickupTime: ride.pickupTime,
+      dropoffTime: now,
       duration
     }
 
@@ -181,7 +178,7 @@ export class TripService {
         paymentSourceId: user.paymentMethod[0].id,
         amount: generatePayment.amount,
         status: generatePayment.status,
-        tripId: payload.tripId
+        rideId: payload.rideId
       });
 
     } catch (error) {
@@ -190,7 +187,7 @@ export class TripService {
         paymentSourceId: user.paymentMethod[0].id,
         amount: payload.fare * 100,
         status: 'ERROR',
-        tripId: payload.tripId
+        rideId: payload.rideId
       });
       console.log(error);
       throw new Error('Ha ocurrido un error al realizar el pago.')

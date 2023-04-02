@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { User } from './user.entity';
-import { PaymentMethod } from '../../payment/entities/payment-method.entity';
-import { Trip } from 'src/trip/entities/trip.entity';
+import { Ride } from '../../ride/entities/ride.entity';
 
 
 @Entity()
@@ -16,6 +15,8 @@ export class Rider {
   @Column()
   userId:string;
 
-  @OneToMany(() => Trip, (trip) => trip.rider)
-  trip: Trip;
+  @OneToMany(() => Ride, (ride) => ride.rider)
+  ride: Ride;
+
+  
 }

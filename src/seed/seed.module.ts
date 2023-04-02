@@ -7,9 +7,9 @@ import { Driver } from '../users/entities/driver.entity';
 import { Rider } from '../users/entities/rider.entity';
 import { PaymentMethod } from '../payment/entities/payment-method.entity';
 import { initialData } from './data/seed-data';
-import { Trip } from 'src/trip/entities/trip.entity';
 import { Payment } from '../payment/entities/payment.entity';
 import { PaymentGatewayLogging } from 'src/payment/entities/payment-gateway-logging.entity';
+import { Ride } from '../ride/entities/ride.entity';
 
 
 @Module({
@@ -33,12 +33,12 @@ import { PaymentGatewayLogging } from 'src/payment/entities/payment-gateway-logg
           database: configService.get('DB_NAME'),
           username: configService.get('DB_USER'),
           password: configService.get('DB_PASSWORD'),
-          entities: [User,Driver,Rider,PaymentMethod,Trip,Payment,PaymentGatewayLogging],
+          entities: [User,Driver,Rider,PaymentMethod,Ride,Payment,PaymentGatewayLogging],
           synchronize: false,
         };
       },
     }),
-    TypeOrmModule.forFeature([User,Driver,Rider,PaymentMethod,Trip,Payment,PaymentGatewayLogging])    
+    TypeOrmModule.forFeature([User,Driver,Rider,PaymentMethod,Ride,Payment,PaymentGatewayLogging])    
   ]
 })
 export class SeedModule { }

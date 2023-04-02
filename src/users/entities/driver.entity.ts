@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { User } from './user.entity';
-import { Trip } from 'src/trip/entities/trip.entity';
+import { Ride } from '../../ride/entities/ride.entity';
 
 @Entity()
 export class Driver {
@@ -14,6 +14,7 @@ export class Driver {
   @Column()
   userId:string;
 
-  @OneToMany(() => Trip, (trip) => trip.driver)
-  trip: Trip;
+  @OneToMany(() => Ride, (ride) => ride.driver)
+  ride: Ride;
+  
 }

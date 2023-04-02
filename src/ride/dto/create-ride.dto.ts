@@ -1,6 +1,6 @@
 import { IsString, IsUUID, IsNumber } from 'class-validator';
 
-export class CreateTripDto {
+export class CreateRideDto {
 
     @IsNumber()
     pickupLat: number;
