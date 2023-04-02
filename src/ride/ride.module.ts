@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { RideService } from './Ride.service';
-import { RideController } from './Ride.controller';
+import { RideService } from './ride.service';
+import { RideController } from './ride.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
 import { Driver } from '../users/entities/driver.entity';

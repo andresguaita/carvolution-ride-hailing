@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { CreateRideDto } from './dto/create-Ride.dto';
+import { CreateRideDto } from './dto/create-ride.dto';
 import { User } from '../users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -23,16 +23,17 @@ export class RideService {
 
   async create(createRideDto: CreateRideDto) {
 
-    const { pickupLat, pickupLng, dropoffLat, dropoffLng, riderId } = createRideDto;
+    const { pickupLat, pickupLng, dropoffLat, dropoffLng, email } = createRideDto;
 
     const user = await this.userRepository.findOne({
       where: {
-        id: riderId
+        email: email
       },
       relations: ['rider']
     });
 
     if (!user) throw new BadRequestException('No hemos encontrado un usuario asociado.');
+    if (!user.rider) throw new BadRequestException('El usuario no tiene permisos para ejecutar esta función.');
 
     const findDriver = await this.userRepository.createQueryBuilder('user')
       .leftJoinAndSelect('user.driver', 'driver')

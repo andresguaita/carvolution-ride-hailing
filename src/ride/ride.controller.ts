@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
-import { RideService } from './Ride.service';
-import { CreateRideDto } from './dto/create-Ride.dto';
+import { RideService } from './ride.service';
+import { CreateRideDto } from './dto/create-ride.dto';
 
 
 @Controller('ride')

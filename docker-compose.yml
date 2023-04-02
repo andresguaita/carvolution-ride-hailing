@@ -1,0 +1,36 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    container_name: cavolution-db-container
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      PORT: ${PORT}
+      PUB_KEY_PAYMENT_GATEWAY: ${PUB_KEY_PAYMENT_GATEWAY}
+      PRIV_KEY_PAYMENT_GATEWAY: ${PRIV_KEY_PAYMENT_GATEWAY}
+      PAYMENT_GATEWAY_HOST: ${PAYMENT_GATEWAY_HOST}
+    container_name: cavolution-app-container
+volumes:
+  dbdata:
+    driver: local

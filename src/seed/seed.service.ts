@@ -28,6 +28,11 @@ export class SeedService {
    * @returns 'SEED EXECUTED'
    */
   async runSeed(): Promise<string> {
+    const user = await this.userRepository.find();
+    if (user) {
+      throw new Error('Ya se ha ejecutado el seed con anterioridad.');
+    }
+    
     await this.insertInitialData(this.initialData);
     return 'SEED EXECUTED';
   }

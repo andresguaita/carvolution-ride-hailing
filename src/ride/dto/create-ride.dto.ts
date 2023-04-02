@@ -1,4 +1,4 @@
-import { IsString, IsUUID, IsNumber } from 'class-validator';
+import { IsString, IsUUID, IsNumber, IsEmail } from 'class-validator';
 
 export class CreateRideDto {
 
@@ -14,7 +14,7 @@ export class CreateRideDto {
     @IsNumber()
     dropoffLng: number;
 
-    @IsUUID()
-    riderId:string;
+    @IsEmail()
+    email:string;
 
 }
