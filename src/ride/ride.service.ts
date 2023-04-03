@@ -8,6 +8,7 @@ import { MakePaymentEvent } from './events/make-payment.event';
 import { PaymentService } from '../payment/payment.service';
 import { v4 as uuidv4 } from 'uuid';
 import { Ride } from './entities/ride.entity';
+import { GoogleMapsService } from '../geo-location/google-maps.service';
 
 @Injectable()
 export class RideService {
@@ -19,36 +20,51 @@ export class RideService {
     private readonly rideRepository: Repository<Ride>,
     public eventEmitter: EventEmitter2,
     private paymentService: PaymentService,
+    private googleMapsService: GoogleMapsService,
   ) { }
 
   async create(createRideDto: CreateRideDto) {
 
-    const { pickupLat, pickupLng, dropoffLat, dropoffLng, email } = createRideDto;
+    const { pickupLocation, dropOffLocation, email } = createRideDto;
 
-    const user = await this.userRepository.findOne({
-      where: {
-        email: email
-      },
-      relations: ['rider']
-    });
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.rider', 'rider')
+      .where('user.email = :email', { email: email })
+      .andWhere('rider.isOnRide = :isOnRide', { isOnRide: false })
+      .getOne();
 
-    if (!user) throw new BadRequestException('No hemos encontrado un usuario asociado.');
+    if (!user) throw new BadRequestException('No hemos encontrado un usuario asociado, o ya se encuentra en viaje.');
     if (!user.rider) throw new BadRequestException('El usuario no tiene permisos para ejecutar esta función.');
 
-    const findDriver = await this.userRepository.createQueryBuilder('user')
+    const findDriver = await this.userRepository
+      .createQueryBuilder('user')
       .leftJoinAndSelect('user.driver', 'driver')
       .where('driver IS NOT NULL')
+      .andWhere('driver.isOnRide = :isOnRide', { isOnRide: false })
       .getOne();
 
     if (!findDriver) throw new BadRequestException('No hay conductores disponibles, intente mas tarde.');
 
+    const pickupLocationGeoLocal = await this.googleMapsService.findGeoLocation(pickupLocation);
+
+    if (!pickupLocationGeoLocal || pickupLocationGeoLocal.status !== 'OK' || pickupLocationGeoLocal.results.length === 0) {
+      throw new BadRequestException('No hemos encontrado resultados para esta direccion de recogida.')
+    }
+
+    const dropOffLocationGeoLocal = await this.googleMapsService.findGeoLocation(dropOffLocation);
+
+    if (!dropOffLocationGeoLocal || dropOffLocationGeoLocal.status !== 'OK' || dropOffLocationGeoLocal.results.length === 0) {
+      throw new BadRequestException('No hemos encontrado resultados para esta direccion de destino.')
+    }
+
     const ride = await this.rideRepository.save({
       rider: user.rider,
       driver: findDriver.driver,
-      pickupLat,
-      pickupLng,
-      dropoffLat,
-      dropoffLng,
+      pickupLat: pickupLocationGeoLocal.results[0].geometry.location.lat,
+      pickupLng: pickupLocationGeoLocal.results[0].geometry.location.lng,
+      dropoffLat: dropOffLocationGeoLocal.results[0].geometry.location.lat,
+      dropoffLng: dropOffLocationGeoLocal.results[0].geometry.location.lng,
       pickupTime: new Date()
     });
 

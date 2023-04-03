@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import { Rider } from '../users/entities/rider.entity';
 import { Driver } from '../users/entities/driver.entity';
 import { MakePaymentEvent } from './events/make-payment.event';
-
+import { GoogleMapsService } from '../geo-location/google-maps.service';
 
 describe('RideService', () => {
     let rideService: RideService;
@@ -16,6 +16,7 @@ describe('RideService', () => {
     let userRepositoryMock: Repository<User>;
     let eventEmitterMock: EventEmitter2 = {} as any;
     let paymentService: PaymentService = {} as any;
+    let googleMapsService: GoogleMapsService = {} as any;
     beforeEach(() => {
         rideRepositoryMock = {
             save: jest.fn(),
@@ -34,15 +35,20 @@ describe('RideService', () => {
                 getOne: jest.fn(),
             }),
         } as any;
-         eventEmitterMock = {
+        eventEmitterMock = {
             emit: jest.fn(),
-        }as any;
+        } as any;
+
+        googleMapsService = {
+            findGeoLocation: jest.fn(),
+        } as any;
 
         rideService = new RideService(
             userRepositoryMock,
             rideRepositoryMock,
             eventEmitterMock,
-            paymentService
+            paymentService,
+            googleMapsService
         );
     });
 
@@ -50,10 +56,8 @@ describe('RideService', () => {
         it('should create a ride successfully if valid data is provided and a driver is available', async () => {
             // Arrange
             const createRideDto = {
-                pickupLat: 1,
-                pickupLng: 1,
-                dropoffLat: 2,
-                dropoffLng: 2,
+                pickupLocation: "chipre manizales",
+                dropOffLocation: "clinica santillana manizales",
                 email: 'test@example.com',
             };
             const user = new User();
@@ -68,10 +72,185 @@ describe('RideService', () => {
             savedRide.id = 1;
             savedRide.pickupTime = new Date();
             (rideRepositoryMock.save as jest.Mock).mockResolvedValue(savedRide);
+            const pickupLocationGeoLocal = jest.spyOn(googleMapsService, 'findGeoLocation').mockResolvedValue({
+                "results": [
+                    {
+                        "address_components": [
+                            {
+                                "long_name": "Chipre",
+                                "short_name": "Chipre",
+                                "types": [
+                                    "neighborhood",
+                                    "political"
+                                ]
+                            },
+                            {
+                                "long_name": "Manizales",
+                                "short_name": "Manizales",
+                                "types": [
+                                    "locality",
+                                    "political"
+                                ]
+                            },
+                            {
+                                "long_name": "Manizales",
+                                "short_name": "Manizales",
+                                "types": [
+                                    "administrative_area_level_2",
+                                    "political"
+                                ]
+                            },
+                            {
+                                "long_name": "Caldas",
+                                "short_name": "Caldas",
+                                "types": [
+                                    "administrative_area_level_1",
+                                    "political"
+                                ]
+                            },
+                            {
+                                "long_name": "Colombia",
+                                "short_name": "CO",
+                                "types": [
+                                    "country",
+                                    "political"
+                                ]
+                            },
+                            {
+                                "long_name": "170001",
+                                "short_name": "170001",
+                                "types": [
+                                    "postal_code"
+                                ]
+                            }
+                        ],
+                        "formatted_address": "Chipre, Manizales, Caldas, Colombia",
+                        "geometry": {
+                            "bounds": {
+                                "northeast": {
+                                    "lat": 5.0830039,
+                                    "lng": -75.52276069999999
+                                },
+                                "southwest": {
+                                    "lat": 5.0666533,
+                                    "lng": -75.5284791
+                                }
+                            },
+                            "location": {
+                                "lat": 5.0761842,
+                                "lng": -75.5254863
+                            },
+                            "location_type": "APPROXIMATE",
+                            "viewport": {
+                                "northeast": {
+                                    "lat": 5.0830039,
+                                    "lng": -75.52276069999999
+                                },
+                                "southwest": {
+                                    "lat": 5.0666533,
+                                    "lng": -75.5284791
+                                }
+                            }
+                        },
+                        "place_id": "ChIJK9vZj-FvR44RO71lraNDNjs",
+                        "types": [
+                            "neighborhood",
+                            "political"
+                        ]
+                    }
+                ],
+                "status": "OK"
+            });
+            const dropOffLocationGeoLocal = jest.spyOn(googleMapsService, 'findGeoLocation').mockResolvedValue({
+                "results": [
+                    {
+                        "address_components": [
+                            {
+                                "long_name": "56 - 50",
+                                "short_name": "56 - 50",
+                                "types": [
+                                    "street_number"
+                                ]
+                            },
+                            {
+                                "long_name": "Carrera 24",
+                                "short_name": "Cra. 24",
+                                "types": [
+                                    "route"
+                                ]
+                            },
+                            {
+                                "long_name": "Manizales",
+                                "short_name": "Manizales",
+                                "types": [
+                                    "locality",
+                                    "political"
+                                ]
+                            },
+                            {
+                                "long_name": "Manizales",
+                                "short_name": "Manizales",
+                                "types": [
+                                    "administrative_area_level_2",
+                                    "political"
+                                ]
+                            },
+                            {
+                                "long_name": "Caldas",
+                                "short_name": "Caldas",
+                                "types": [
+                                    "administrative_area_level_1",
+                                    "political"
+                                ]
+                            },
+                            {
+                                "long_name": "Colombia",
+                                "short_name": "CO",
+                                "types": [
+                                    "country",
+                                    "political"
+                                ]
+                            },
+                            {
+                                "long_name": "170004",
+                                "short_name": "170004",
+                                "types": [
+                                    "postal_code"
+                                ]
+                            }
+                        ],
+                        "formatted_address": "Cra. 24 #56 - 50, Manizales, Caldas, Colombia",
+                        "geometry": {
+                            "location": {
+                                "lat": 5.060557999999999,
+                                "lng": -75.4917172
+                            },
+                            "location_type": "ROOFTOP",
+                            "viewport": {
+                                "northeast": {
+                                    "lat": 5.061985030291502,
+                                    "lng": -75.49038091970849
+                                },
+                                "southwest": {
+                                    "lat": 5.059287069708497,
+                                    "lng": -75.4930788802915
+                                }
+                            }
+                        },
+                        "place_id": "ChIJA-RTq5RlR44RaIFfrea0EIE",
+                        "types": [
+                            "establishment",
+                            "health",
+                            "point_of_interest"
+                        ]
+                    }
+                ],
+                "status": "OK"
+            });
 
             // Act
             const result = await rideService.create(createRideDto);
-
+            console.log('LLEGO AQUÍ BIEN!!!!!!!!!!!!!!!')
             // Assert
             expect(result).toEqual({
                 id: savedRide.id,
@@ -86,21 +265,20 @@ describe('RideService', () => {
             expect(rideRepositoryMock.save).toHaveBeenCalledWith({
                 rider: user.rider,
                 driver: driver.driver,
-                pickupLat: createRideDto.pickupLat,
-                pickupLng: createRideDto.pickupLng,
-                dropoffLat: createRideDto.dropoffLat,
-                dropoffLng: createRideDto.dropoffLng,
+                dropoffLat: 5.060557999999999,
+                dropoffLng: -75.4917172,
+                pickupLat: 5.060557999999999,
+                pickupLng: -75.4917172,
                 pickupTime: expect.any(Date),
             });
         });
 
+
         it('should throw an error if no user is found', async () => {
             // Arrange
             const createRideDto = {
-                pickupLat: 1,
-                pickupLng: 1,
-                dropoffLat: 2,
-                dropoffLng: 2,
+                pickupLocation: "chipre manizales",
+                dropOffLocation: "clinica santillana manizales",
                 email: 'test@example.com',
             };
             (userRepositoryMock.findOne as jest.Mock).mockResolvedValue(undefined);
@@ -139,7 +317,7 @@ describe('RideService', () => {
                 message: 'Has finalizado el viaje.',
                 fare: fare,
                 pickupTime: result.pickupTime,
-                dropoffTime:  result.dropoffTime,
+                dropoffTime: result.dropoffTime,
                 duration: result.duration,
             });
             expect(rideRepositoryMock.findOne).toHaveBeenCalledWith({

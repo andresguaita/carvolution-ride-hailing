@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { PaymentModule } from './payment/payment.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { RideModule } from './ride/ride.module';
+import { GoogleMapsModule } from './geo-location/google-maps.module';
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -23,7 +24,8 @@ import { RideModule } from './ride/ride.module';
   }),
     UsersModule,
     PaymentModule,
-    RideModule],
+    RideModule,
+    GoogleMapsModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -18,5 +18,6 @@ export class Rider {
   @OneToMany(() => Ride, (ride) => ride.rider)
   ride: Ride;
 
-  
+  @Column({default: false})
+  isOnRide: boolean;
 }

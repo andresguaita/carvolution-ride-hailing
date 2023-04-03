@@ -1,18 +1,15 @@
-import { IsString, IsUUID, IsNumber, IsEmail } from 'class-validator';
+import { IsString, IsUUID, IsNumber, IsEmail, MinLength } from 'class-validator';
 
 export class CreateRideDto {
 
-    @IsNumber()
-    pickupLat: number;
-  
-    @IsNumber()
-    pickupLng:number;
-  
-    @IsNumber()
-    dropoffLat: number;
-  
-    @IsNumber()
-    dropoffLng: number;
+
+    @IsString()
+    @MinLength(4)
+    pickupLocation:string;
+
+    @IsString()
+    @MinLength(4)
+    dropOffLocation:string;
 
     @IsEmail()
     email:string;

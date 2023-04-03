@@ -29,7 +29,7 @@ export class SeedService {
    */
   async runSeed(): Promise<string> {
     const user = await this.userRepository.find();
-    if (user) {
+    if (user.length!==0) {
       throw new Error('Ya se ha ejecutado el seed con anterioridad.');
     }
     

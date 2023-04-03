@@ -16,5 +16,8 @@ export class Driver {
 
   @OneToMany(() => Ride, (ride) => ride.driver)
   ride: Ride;
+
+  @Column({default: false})
+  isOnRide: boolean;
   
 }
