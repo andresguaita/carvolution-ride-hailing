@@ -15,9 +15,6 @@ export class GoogleMapsService {
  public async findGeoLocation(address: string){
 
     try {
-
-      console.log('HAAAA LLEGADO AQUI ESO ES GENIAL!')
-
       const url = `${this.apiUrl}?address=${encodeURIComponent(address)}&key=${this.apiKey}`;
 
       console.log('URL', url)

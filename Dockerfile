@@ -13,4 +13,4 @@ EXPOSE 3001
 
 RUN yarn run build
 
-CMD ["sh", "-c", "yarn run start:prod && yarn run seedOnce"]
+CMD ["sh", "-c", "yarn run start:prod"]

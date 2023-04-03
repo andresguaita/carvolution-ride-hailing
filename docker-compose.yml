@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - dbdata:/var/lib/postgresql/data
     container_name: cavolution-db-container
@@ -30,7 +30,10 @@ services:
       PUB_KEY_PAYMENT_GATEWAY: ${PUB_KEY_PAYMENT_GATEWAY}
       PRIV_KEY_PAYMENT_GATEWAY: ${PRIV_KEY_PAYMENT_GATEWAY}
       PAYMENT_GATEWAY_HOST: ${PAYMENT_GATEWAY_HOST}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY}
+      GOOGLE_API_URL: ${GOOGLE_API_URL}
     container_name: cavolution-app-container
+    
 volumes:
   dbdata:
     driver: local
