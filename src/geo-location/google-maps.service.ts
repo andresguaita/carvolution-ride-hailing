@@ -17,8 +17,6 @@ export class GoogleMapsService {
     try {
       const url = `${this.apiUrl}?address=${encodeURIComponent(address)}&key=${this.apiKey}`;
 
-      console.log('URL', url)
-
       const geoLocation = await this.http.get<GeoLocationResponse>(url);
       
       return geoLocation;
