@@ -1,6 +1,6 @@
 ## Carvolution - The Evolution of Mobility
 
-This is a small ride hailing project where a user can schedule a ride with just their email, starting position, and final destination. The Google Maps API will automatically generate the coordinates for the ride.
+This is a small ride hailing project where a user can schedule a ride with just their email, starting position, and final destination. The Google Maps API will automatically generate the coordinates for the ride. 
 
 # Deployment Steps
 
@@ -35,13 +35,14 @@ Request :
 
 {
 
-    "pickupLocation":  "chipre manizales",
+    "pickupLocation":  "chipre manizales", 
     "dropOffLocation": "clinica santillana ",
     "email": "jaimealberto@example.com"
 }
 
 
 ### Finish a Ride 
+Once the ride is finished, an event will be generated for the payment of that ride, with the calculated ride value and distance.
 
 `{{host}}/ride/finish`---> PUT
 
