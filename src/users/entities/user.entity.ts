@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToOne, CreateDateColumn, Upd
 import { Driver } from './driver.entity';
 import { Rider } from './rider.entity';
 import { PaymentMethod } from '../../payment/entities/payment-method.entity';
+import { Payment } from '../../payment/entities/payment.entity';
 
 
 @Entity()
@@ -30,6 +31,9 @@ export class User {
   @OneToMany(() => PaymentMethod, (paymentMethod) =>
   paymentMethod.user)
   paymentMethod: PaymentMethod[];
+
+  @OneToMany(type => Payment, payment => payment.user)
+  payments: Payment[];
 
   @CreateDateColumn({
     type: 'timestamptz',

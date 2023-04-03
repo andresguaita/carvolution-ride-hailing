@@ -54,6 +54,10 @@ Request :
 
 }
 
+### "Get payments made by user (including the payment method used)."
+
+`{{host}}/users/findPayments/{{email}}` --> GET
+
 
 # Conclusion
 

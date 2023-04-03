@@ -22,4 +22,7 @@ export class PaymentMethod{
 
     @OneToMany(() => Payment, (payment) => payment.paymentMethod)
     payment: Payment;
+
+    @Column()
+    isSetAsDefault:boolean;
 }

@@ -183,7 +183,7 @@ export class RideService {
         amount: payload.fare,
         currency: 'COP',
         customerEmail: user.email,
-        paymentSourceId: user.paymentMethod[0].id,
+        paymentSourceId: user.paymentMethod[0]?.id,
         reference: transactionId,
         transactionId,
         paymentMethodType: 'CARD',
@@ -192,19 +192,21 @@ export class RideService {
 
       await this.paymentService.createTransaction({
         transactionId,
-        paymentSourceId: user.paymentMethod[0].id,
+        paymentSourceId: user.paymentMethod[0]?.id,
         amount: generatePayment.amount,
         status: generatePayment.status,
-        rideId: payload.rideId
+        rideId: payload.rideId,
+        userId: user.id
       });
 
     } catch (error) {
       await this.paymentService.createTransaction({
         transactionId,
-        paymentSourceId: user.paymentMethod[0].id,
+        paymentSourceId: user.paymentMethod[0]?.id,
         amount: payload.fare * 100,
         status: 'ERROR',
-        rideId: payload.rideId
+        rideId: payload.rideId,
+        userId: user.id
       });
       console.log(error);
       throw new Error('Ha ocurrido un error al realizar el pago.')

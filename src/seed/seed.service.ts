@@ -54,7 +54,8 @@ export class SeedService {
         id: initialData.paymentMethods[i].id,
         methodToken: initialData.paymentMethods[i].methodToken,
         type: initialData.paymentMethods[i].type,
-        user: user
+        user: user,
+        isSetAsDefault: true
       });
     }
 
