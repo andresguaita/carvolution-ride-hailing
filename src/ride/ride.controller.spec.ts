@@ -24,10 +24,8 @@ describe('RideController', () => {
 
   it('/POST ride', () => {
     const createRideDto = {
-      pickupLat: 123.456,
-      pickupLng: 789.123,
-      dropoffLat: 456.789,
-      dropoffLng: 321.987,
+      pickupLocation: "chipre manizales",
+      dropOffLocation: "clinica santillana",
       email: 'test@example.com',
     };
     return request(app.getHttpServer())
@@ -41,10 +39,8 @@ describe('RideController', () => {
 
   it('/POST ride (invalid email)', () => {
     const createRideDto = {
-      pickupLat: 1,
-      pickupLng: 2,
-      dropoffLat: 3,
-      dropoffLng: 4,
+      pickupLocation: "chipre manizales",
+      dropOffLocation: "clinica santillana",
       email: 'invalid-email',
     };
     return request(app.getHttpServer())
